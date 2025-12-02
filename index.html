@@ -11,7 +11,7 @@
         display: none;
       }
       
-      
+      /* Styling for timestamp and verify button */
       #last-updated {
         text-align: center;
         margin: 20px 0;
@@ -50,15 +50,15 @@
   </head>
   
   <body>
-    
+    <!-- Last commit time display -->
     <div id="last-updated">Loading last update time...</div>
     
-    
+    <!-- Verify Button - styled to match dropdown -->
     <button onclick="verifyLastUpdatedTime()" class="verify-btn">
         Verify Last Modified Time
     </button>
 
-   
+    <!-- Word count display -->
     <p id="totalWordCount"></p>
     <hr>
 
@@ -113,7 +113,7 @@
         function displayTotalWordCount() {
             const AbstractCount = displayWordCount("Abstract_Text");
             const IntroCount = displayWordCount("Intro_Text");
-            const FormationCount = displayWordCount("Formation_Text"); // Fixed: removed space
+            const FormationCount = displayWordCount("Formation_Text");
             const SpiralCount = displayWordCount("Spiral_Text");
             const EllipticalCount = displayWordCount("Elliptical_Text");
             const IrregularCount = displayWordCount("Irregular_Text");
@@ -248,4 +248,86 @@
         <li>There are currently new techniques being developed to simulate specific processes, such as star formation in extreme environments or the feedback effects of black holes on their galaxies (<a href="#ref11">Institute of Astronomy, no date</a>), as demonstrated in Figure 6.</li>
       </ul>
 
-      <!-- Rest of your code continues... -->
+      <!-- Figure 6: Galaxy simulation -->
+      <figure style="text-align: center; margin: 30px 0;">
+        <img src="galaxy-simulation.jpg" alt="Galaxy Simulation" class="section-image">
+        <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 14px;">
+          <strong>Figure 6:</strong> Computer simulation of galaxy formation showing the distribution of matter and dark matter over cosmic time (NASA Scientific Visualization Studio, no date)
+        </figcaption>
+      </figure>
+
+      <h4>Observational methods:</h4>
+      <ul>
+        <li>Astronomers can use the finite speed of light to their advantage. By observing distant galaxies, they are essentially looking at snapshots of the universe in its early stages, directly seeing galaxies as they were forming and evolving (<a href="#ref12">National Center for Biotechnology Information, no date</a>).</li>
+        <li>By analysing the chemical content, kinematics, and distribution of stars and gas in our own and nearby galaxies, astronomers reconstruct their formation history (<a href="#ref7">NASA Science, no date</a>).</li>
+      </ul>
+
+      <h3 id="References">References</h3> 
+      <p style="line-height: 2;">
+        <span id="ref1">American Museum of Natural History (no date) <em>Formation and Evolution of Galaxies</em>. Available at: <a href="https://www.amnh.org/learn-teach/curriculum-collections/cosmic-horizons-book/formation-evolution-galaxies" target="_blank">https://www.amnh.org/learn-teach/curriculum-collections/cosmic-horizons-book/formation-evolution-galaxies</a> (Accessed: 23 November 2025).</span>
+        <br><br>
+        
+        <span id="ref6">Astronomy.com (no date) <em>How Did Galaxies Form?</em> Available at: <a href="https://www.astronomy.com/science/how-did-galaxies-form/" target="_blank">https://www.astronomy.com/science/how-did-galaxies-form/</a> (Accessed: 23 November 2025).</span>
+        <br><br>
+        
+        <span id="ref4">BBC Sky at Night Magazine (no date) <em>What is a galaxy?</em> Available at: <a href="https://www.skyatnightmagazine.com/space-science/what-is-galaxy" target="_blank">https://www.skyatnightmagazine.com/space-science/what-is-galaxy</a> (Accessed: 23 November 2025).</span>
+        <br><br>
+        
+        <span id="ref3">Bower, R. (no date) <em>How do galaxies form?</em> Durham University. Available at: <a href="https://www.dur.ac.uk/research/institutes-and-centres/computational-cosmology/" target="_blank">https://www.dur.ac.uk/research/institutes-and-centres/computational-cosmology/</a> (Accessed: 23 November 2025).</span>
+        <br><br>
+        
+        <span id="ref2">Center for Astrophysics (no date) <em>Galaxy Formation and Evolution</em>. Harvard & Smithsonian. Available at: <a href="https://www.cfa.harvard.edu/research/topic/galaxy-formation-and-evolution" target="_blank">https://www.cfa.harvard.edu/research/topic/galaxy-formation-and-evolution</a> (Accessed: 23 November 2025).</span>
+        <br><br>
+        
+        <span id="ref13">ESA/Hubble (2018) <em>Hubble catches galaxies ablaze with starburst</em>. Available at: <a href="https://esahubble.org/images/heic2018b" target="_blank">https://esahubble.org/images/heic2018b</a> (Accessed: 23 November 2025).</span>
+        <br><br>
+        
+        <span id="ref10">Institute of Astronomy (no date) <em>Galaxy Formation</em>. University of Cambridge. Available at: <a href="https://www.ast.cam.ac.uk/research/galaxy.formation" target="_blank">https://www.ast.cam.ac.uk/research/galaxy.formation</a> (Accessed: 23 November 2025).</span>
+        <br><br>
+        
+        <span id="ref11">Institute of Astronomy (no date) <em>Galaxy Evolution and AGN</em>. University of Cambridge. Available at: <a href="https://www.ast.cam.ac.uk/research/galaxy.evolution.agn" target="_blank">https://www.ast.cam.ac.uk/research/galaxy.evolution.agn</a> (Accessed: 23 November 2025).</span>
+        <br><br>
+        
+        <span id="ref5">NASA (no date) <em>Galaxy Formation</em>. Scientific Visualization Studio. Available at: <a href="https://svs.gsfc.nasa.gov/10663" target="_blank">https://svs.gsfc.nasa.gov/10663</a> (Accessed: 23 November 2025).</span>
+        <br><br>
+        
+        <span id="ref7">NASA Science (no date) <em>Galaxies Over Time</em>. Available at: <a href="https://science.nasa.gov/universe/galaxies/galaxies-over-time/" target="_blank">https://science.nasa.gov/universe/galaxies/galaxies-over-time/</a> (Accessed: 23 November 2025).</span>
+        <br><br>
+
+        <span id="ref14">NASA Science (no date) <em>Dark Matter</em>. Roman Space Telescope. Available at: <a href="https://science.nasa.gov/mission/roman-space-telescope/dark-matter" target="_blank">https://science.nasa.gov/mission/roman-space-telescope/dark-matter</a> (Accessed: 23 November 2025).</span>
+        <br><br>
+        
+        <span id="ref8">NASA Science (no date) <em>Types of Galaxies</em>. Available at: <a href="https://science.nasa.gov/universe/galaxies/types" target="_blank">https://science.nasa.gov/universe/galaxies/types</a> (Accessed: 23 November 2025).</span>
+        <br><br>
+        
+        <span id="ref12">National Center for Biotechnology Information (no date) <em>Observing the epoch of galaxy formation</em>. PubMed Central. Available at: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9279288/" target="_blank">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9279288/</a> (Accessed: 23 November 2025).</span>
+        <br><br>
+        
+        <span id="ref9">National Astronomical Observatory of Japan (no date) <em>Formation of a Spiral Galaxy ver. 3</em>. Available at: <a href="https://www.nao.ac.jp/en/gallery/weekly/2009/20090908-spiral.html" target="_blank">https://www.nao.ac.jp/en/gallery/weekly/2009/20090908-spiral.html</a> (Accessed: 23 November 2025).</span>
+      </p>
+      
+    </section>
+
+    <script>
+      // Toggle dropdown on click
+      document.querySelector('.dropdown-btn').addEventListener('click', function() {
+        var dropdown = document.querySelector('.dropdown-content');
+        if (dropdown.style.display === 'block') {
+          dropdown.style.display = 'none';
+        } else {
+          dropdown.style.display = 'block';
+        }
+      });
+
+      // Close dropdown when clicking outside
+      window.addEventListener('click', function(event) {
+        if (!event.target.matches('.dropdown-btn')) {
+          var dropdowns = document.getElementsByClassName('dropdown-content');
+          for (var i = 0; i < dropdowns.length; i++) {
+            dropdowns[i].style.display = 'none';
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
