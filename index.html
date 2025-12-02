@@ -10,63 +10,128 @@
       .mySlides {
         display: none;
       }
+      
+      
+      #last-updated {
+        text-align: center;
+        margin: 20px 0;
+        font-size: 14px;
+        color: #666;
+      }
+      
+      .verify-btn {
+        display: block;
+        margin: 10px auto;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      }
+      
+      .verify-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+      }
+      
+      #totalWordCount {
+        text-align: center;
+        font-weight: bold;
+        font-size: 16px;
+        margin: 20px 0;
+        color: #667eea;
+      }
     </style>
   </head>
-
-<!-- //////////////////////////////////////////////////////////////////////////////// -->
-  <!-- ////////////////////////////// Adding last update ////////////////////////////// -->
-  <!-- //////////////////////////////////////////////////////////////////////////////// -->
-    <!-- Last commit time display -->
-<div id="last-updated">Loading last update time...</div>
-<!-- Verify Button -->
-<button onclick="verifyLastUpdatedTime()" style="display: block; margin: 10px auto; padding: 8px 16px;">
-    Verify Last Modified Time
-</button>
-<script>
-    async function getLastUpdatedTime() {
-        const username = 'FEPSFY6871511';
-        const repo = 'FY6871511';
-       
-        const url = `https://api.github.com/repos/${username}/${repo}/commits`;
-        try {
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/vnd.github.v3+json',
-                }
-            });
-            if (!response.ok) {
-                throw new Error(`Error fetching data: ${response.status} - ${response.statusText}`);
-            }
-            const commits = await response.json();
-            if (commits && commits.length > 0) {
-                const lastCommitDate = new Date(commits[0].commit.committer.date);
-               
-                // Displaying the time on load
-                document.getElementById('last-updated').innerText = `Last Modified Time: ${lastCommitDate.toLocaleString()}`;
-            } else {
-                document.getElementById('last-updated').innerText = 'No commits found in the repository.';
-            }
-        } catch (error) {
-            console.error('Error fetching the last updated time:', error);
-            document.getElementById('last-updated').innerText = 'Error fetching update time. Please check the repository details.';
-        }
-    }
-    // Function to verify the last update time by re-fetching it from the API
-    async function verifyLastUpdatedTime() {
-        document.getElementById('last-updated').innerText = 'Verifying...';
-        await getLastUpdatedTime();
-        alert("Last modified time has been successfully verified from GitHub API.");
-    }
-    // Initial load to display the time on page load
-    window.onload = getLastUpdatedTime;
-</script>
-
-
- 
-  
   
   <body>
+    
+    <div id="last-updated">Loading last update time...</div>
+    
+    
+    <button onclick="verifyLastUpdatedTime()" class="verify-btn">
+        Verify Last Modified Time
+    </button>
+
+   
+    <p id="totalWordCount"></p>
+    <hr>
+
+    <script>
+        // ===== TIMESTAMP FUNCTIONS =====
+        async function getLastUpdatedTime() {
+            const username = 'FEPSFY6871511';
+            const repo = 'FY6871511';
+           
+            const url = `https://api.github.com/repos/${username}/${repo}/commits`;
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/vnd.github.v3+json',
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(`Error fetching data: ${response.status} - ${response.statusText}`);
+                }
+                const commits = await response.json();
+                if (commits && commits.length > 0) {
+                    const lastCommitDate = new Date(commits[0].commit.committer.date);
+                    document.getElementById('last-updated').innerText = `Last Modified Time: ${lastCommitDate.toLocaleString()}`;
+                } else {
+                    document.getElementById('last-updated').innerText = 'No commits found in the repository.';
+                }
+            } catch (error) {
+                console.error('Error fetching the last updated time:', error);
+                document.getElementById('last-updated').innerText = 'Error fetching update time. Please check the repository details.';
+            }
+        }
+
+        async function verifyLastUpdatedTime() {
+            document.getElementById('last-updated').innerText = 'Verifying...';
+            await getLastUpdatedTime();
+            alert("Last modified time has been successfully verified from GitHub API.");
+        }
+
+        // ===== WORD COUNT FUNCTIONS =====
+        function displayWordCount(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (!element) {
+                console.error(`Element with ID ${sectionId} not found`);
+                return 0;
+            }
+            const text = element.textContent;
+            const wordArray = text.trim().split(/\s+/).filter(word => word.length > 0);
+            return wordArray.length;
+        }
+
+        function displayTotalWordCount() {
+            const AbstractCount = displayWordCount("Abstract_Text");
+            const IntroCount = displayWordCount("Intro_Text");
+            const FormationCount = displayWordCount("Formation_Text"); // Fixed: removed space
+            const SpiralCount = displayWordCount("Spiral_Text");
+            const EllipticalCount = displayWordCount("Elliptical_Text");
+            const IrregularCount = displayWordCount("Irregular_Text");
+            const CompCount = displayWordCount("Computational_Text");
+
+            const totalWordCount = AbstractCount + IntroCount + FormationCount + 
+                                  SpiralCount + EllipticalCount + IrregularCount + CompCount;
+            
+            document.getElementById("totalWordCount").innerText = `Total word count: ${totalWordCount}`;
+        }
+
+        // ===== COMBINED WINDOW.ONLOAD =====
+        window.onload = function() {
+            getLastUpdatedTime();
+            displayTotalWordCount();
+        };
+    </script>
+
     <section class="header">
       
       <div class="top-left-info">
@@ -94,54 +159,14 @@
           <a href="#References">References</a>
         </div>
       </div>
-
-      <!-- //////////////////////////////////////////////////////////////////////////////// -->
-  <!-- ////////////////////////////// Word count function ////////////////////////////// -->
-  <!-- //////////////////////////////////////////////////////////////////////////////// -->
-<!-- Placeholder for total word count -->
-<p id="totalWordCount"></p>
-<hr>
-<script>
-  // Function to calculate and display word count for a specified section
-  function displayWordCount(sectionId, outputId) {
-    // Get the text content from the specified section
-    const text = document.getElementById(sectionId).textContent;
-    // Split text into words based on spaces and filter out any empty strings
-    const wordArray = text.trim().split(/\s+/);
-    // Count the words
-    const wordCount = wordArray.length;
-    // Return the word count for summing purposes
-    return wordCount;
-  }
-  // Function to calculate and display total word count from selected sections
-  function displayTotalWordCount() {
-    // Calculate word count for each section and accumulate the total
-    const AbstractCount = displayWordCount("Abstract_Text");
-    const IntroCount = displayWordCount("Intro_Text");
-    const Formation Count = displayWordCount("Formation_Text");
-    const SpiralCount = displayWordCount("Spiral_Text");
-    const EllipticalCount = displayWordCount("Elliptical_Text"); 
-    const CompCount = displayWordCount("Computational_Text");
-
-
-    // Calculate the sum of all selected sections
-    const totalWordCount = AbstractCount + IntroCount + FormationCount + SpiralCount + EllipticalCount + CompCount   ;
-    // Display the total word count
-    document.getElementById("totalWordCount").innerText = `Total word count: ${totalWordCount}`;
-  }
-  // Run the function for specific sections and display total count when the page loads
-  window.onload = displayTotalWordCount;
-</script>
       
       <h3 id="Abstract">Abstract</h3>
-      <p>
-        <pre id="Abstract_Text"></pre>
+      <p id="Abstract_Text">
         This paper explores the fascinating process of galaxy formation, from the initial clouds of gas and dust to the diverse structures we observe today. We examine the crucial role of dark matter in shaping galaxies, analyze the three main types of galaxies (spiral, elliptical, and irregular), and discuss both computational and observational methods used to study galaxy formation.
       </p>
       
       <h3 id="Introduction">Introduction</h3>
-      <p>
-         <pre id="Intro_Text"></pre>
+      <p id="Intro_Text">
         Today there exists many billions of galaxies (<a href="#ref7">NASA Science, no date</a>). How did they form? To answer that question, over many years astronomers have used the fundamental laws of physics to deduce the basic story of galaxy formation (<a href="#ref1">American Museum of Natural History, no date</a>). 
         The formation process had begun with huge clouds of gas and dust. As these clouds collapse under gravity, the gas becomes denser and heats up, leading to the formation of stars (<a href="#ref6">Astronomy.com, no date</a>). Overtime, smaller galaxies collide and merge which allows them to grow into large structures, as shown in Figure 1.
       </p>
@@ -155,9 +180,7 @@
       </figure>
 
       <h3 id="Formation and the role of dark matter">Formation and the role of dark matter</h3>
-      <p>
-
-       <pre id="Formation_Text"></pre>
+      <p id="Formation_Text">
         As mentioned already, galaxies formed from an initial gas cloud, followed by star formation and then ending in merging and growth (hierarchical merging) (<a href="#ref2">Center for Astrophysics, no date</a>). 
         Dark matter has played a big role in galaxy formation (<a href="#ref10">Institute of Astronomy, no date</a>). It is an invisible form of matter whose total mass in the universe is roughly five times that of "normal" matter (i.e. atoms) (<a href="#ref7">NASA Science, no date</a>).
         It acts as a scaffolding of the universe and the visible matter simply collects inside of that scaffolding, in the form of stars and galaxies (<a href="#ref3">Bower, no date</a>). Dark matter does this by clumping together; in which small objects form first and are drawn together to form larger ones, as illustrated in Figure 2.
@@ -174,11 +197,9 @@
       <h3 id="The 3 Types of Galaxies">The 3 Types of Galaxies</h3>
       
       <h4>Spiral Galaxies:</h4>
-      <p>
-         <pre id="Spiral_Text"></pre>
+      <p id="Spiral_Text">
         The formation of a spiral galaxy occurs through hierarchical merging of smaller galaxies and the formation of a rotating disk (<a href="#ref9">National Astronomical Observatory of Japan, no date</a>). Matter is distributed almost uniformly in space, however because small density fluctuations exist, matter is gradually collected by the gravity from parts with a higher density (<a href="#ref2">Center for Astrophysics, no date</a>). Over time, the gas density becomes high enough and stars are born, forming small galaxies. These small galaxies then merge with each other, creating even larger galaxies.
         During the process of merging, a disk is formed, and stars are born into this disk. As small galaxies pass around the periphery of this disk, the effect of their gravity create a spiral structure in the disk (<a href="#ref9">National Astronomical Observatory of Japan, no date</a>).
-        <br><br>
         The galaxy we live in, the Milky Way, is an example of a spiral galaxy (<a href="#ref8">NASA Science, no date</a>), as shown in Figure 3.
       </p>
 
@@ -191,8 +212,7 @@
       </figure>
 
       <h4>Elliptical Galaxies:</h4>
-      <p>
-         <pre id="Elliptical_Text"></pre>
+      <p id="Elliptical_Text">
         Elliptical galaxies, unlike spirals, usually contain little gas and dust and show very little organization or structure (<a href="#ref8">NASA Science, no date</a>). The stars formed, orbit the core in random directions and are generally older than those in spiral galaxies, since little of the gas needed to form new stars remains. In terms of their exact origin, it is believed that they come from collisions and mergers with spirals (<a href="#ref8">NASA Science, no date</a>).  
         When two galaxies collide, it's because of gas clouds being compressed, leading to new star formation, as illustrated in Figure 4.
       </p>
@@ -206,8 +226,7 @@
       </figure>
 
       <h4>Irregular Galaxies:</h4>
-      <p>
-         <pre id="Irregular_Text"></pre>
+      <p id="Irregular_Text">
         Irregular galaxies have unusual shapes and range from dwarf irregular galaxies with 100 million times the sun's mass to large ones weighing 10 billion solar masses (<a href="#ref8">NASA Science, no date</a>).
         What causes these irregular shapes? Astronomers think that these galaxies' odd shapes are sometimes the result of interactions with others (<a href="#ref4">BBC Sky at Night Magazine, no date</a>). For instance, one spiral galaxy passing with a stronger gravitational pull could lose some of its material, causing it to become distorted and have a new shape, as shown in Figure 5.
       </p>
@@ -223,93 +242,10 @@
       <h3 id="Different methods carried out for the study of galaxy formations">Different methods carried out for the study of galaxy formations</h3>
       
       <h4>Computational methods:</h4>
-      <ul>
-        <pre id="Computational_Text"></pre>
+      <ul id="Computational_Text">
         <li>Researchers build sophisticated computer models to simulate the formation and evolution of galaxies, including the roles of dark matter, gas, and stars (<a href="#ref10">Institute of Astronomy, no date</a>).</li>
         <li>The use of semi-analytic models that combine different types of physics and data to create a hybrid approach for simulating galaxy formation (<a href="#ref11">Institute of Astronomy, no date</a>).</li>
         <li>There are currently new techniques being developed to simulate specific processes, such as star formation in extreme environments or the feedback effects of black holes on their galaxies (<a href="#ref11">Institute of Astronomy, no date</a>), as demonstrated in Figure 6.</li>
       </ul>
 
-      <!-- Figure 6: Galaxy simulation -->
-      <figure style="text-align: center; margin: 30px 0;">
-        <img src="galaxy-simulation.jpg" alt="Galaxy Simulation" class="section-image">
-        <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 14px;">
-          <strong>Figure 6:</strong> Computer simulation of galaxy formation showing the distribution of matter and dark matter over cosmic time (NASA Scientific Visualization Studio, no date)
-        </figcaption>
-      </figure>
-
-      <h4>Observational methods:</h4>
-      <ul>
-        <li>Astronomers can use the finite speed of light to their advantage. By observing distant galaxies, they are essentially looking at snapshots of the universe in its early stages, directly seeing galaxies as they were forming and evolving (<a href="#ref12">National Center for Biotechnology Information, no date</a>).</li>
-        <li>By analysing the chemical content, kinematics, and distribution of stars and gas in our own and nearby galaxies, astronomers reconstruct their formation history (<a href="#ref7">NASA Science, no date</a>).</li>
-      </ul>
-
-      <h3 id="References">References</h3> 
-      <p style="line-height: 2;">
-        <span id="ref1">American Museum of Natural History (no date) <em>Formation and Evolution of Galaxies</em>. Available at: <a href="https://www.amnh.org/learn-teach/curriculum-collections/cosmic-horizons-book/formation-evolution-galaxies" target="_blank">https://www.amnh.org/learn-teach/curriculum-collections/cosmic-horizons-book/formation-evolution-galaxies</a> (Accessed: 23 November 2025).</span>
-        <br><br>
-        
-        <span id="ref6">Astronomy.com (no date) <em>How Did Galaxies Form?</em> Available at: <a href="https://www.astronomy.com/science/how-did-galaxies-form/" target="_blank">https://www.astronomy.com/science/how-did-galaxies-form/</a> (Accessed: 23 November 2025).</span>
-        <br><br>
-        
-        <span id="ref4">BBC Sky at Night Magazine (no date) <em>What is a galaxy?</em> Available at: <a href="https://www.skyatnightmagazine.com/space-science/what-is-galaxy" target="_blank">https://www.skyatnightmagazine.com/space-science/what-is-galaxy</a> (Accessed: 23 November 2025).</span>
-        <br><br>
-        
-        <span id="ref3">Bower, R. (no date) <em>How do galaxies form?</em> Durham University. Available at: <a href="https://www.dur.ac.uk/research/institutes-and-centres/computational-cosmology/" target="_blank">https://www.dur.ac.uk/research/institutes-and-centres/computational-cosmology/</a> (Accessed: 23 November 2025).</span>
-        <br><br>
-        
-        <span id="ref2">Center for Astrophysics (no date) <em>Galaxy Formation and Evolution</em>. Harvard & Smithsonian. Available at: <a href="https://www.cfa.harvard.edu/research/topic/galaxy-formation-and-evolution" target="_blank">https://www.cfa.harvard.edu/research/topic/galaxy-formation-and-evolution</a> (Accessed: 23 November 2025).</span>
-        <br><br>
-        
-        <span id="ref13">ESA/Hubble (2018) <em>Hubble catches galaxies ablaze with starburst</em>. Available at: <a href="https://esahubble.org/images/heic2018b" target="_blank">https://esahubble.org/images/heic2018b</a> (Accessed: 23 November 2025).</span>
-        <br><br>
-        
-        <span id="ref10">Institute of Astronomy (no date) <em>Galaxy Formation</em>. University of Cambridge. Available at: <a href="https://www.ast.cam.ac.uk/research/galaxy.formation" target="_blank">https://www.ast.cam.ac.uk/research/galaxy.formation</a> (Accessed: 23 November 2025).</span>
-        <br><br>
-        
-        <span id="ref11">Institute of Astronomy (no date) <em>Galaxy Evolution and AGN</em>. University of Cambridge. Available at: <a href="https://www.ast.cam.ac.uk/research/galaxy.evolution.agn" target="_blank">https://www.ast.cam.ac.uk/research/galaxy.evolution.agn</a> (Accessed: 23 November 2025).</span>
-        <br><br>
-        
-        <span id="ref5">NASA (no date) <em>Galaxy Formation</em>. Scientific Visualization Studio. Available at: <a href="https://svs.gsfc.nasa.gov/10663" target="_blank">https://svs.gsfc.nasa.gov/10663</a> (Accessed: 23 November 2025).</span>
-        <br><br>
-        
-        <span id="ref7">NASA Science (no date) <em>Galaxies Over Time</em>. Available at: <a href="https://science.nasa.gov/universe/galaxies/galaxies-over-time/" target="_blank">https://science.nasa.gov/universe/galaxies/galaxies-over-time/</a> (Accessed: 23 November 2025).</span>
-        <br><br>
-
-        <span id="ref14">NASA Science (no date) <em>Dark Matter</em>. Roman Space Telescope. Available at: <a href="https://science.nasa.gov/mission/roman-space-telescope/dark-matter" target="_blank">https://science.nasa.gov/mission/roman-space-telescope/dark-matter</a> (Accessed: 23 November 2025).</span>
-        <br><br>
-        
-        <span id="ref8">NASA Science (no date) <em>Types of Galaxies</em>. Available at: <a href="https://science.nasa.gov/universe/galaxies/types" target="_blank">https://science.nasa.gov/universe/galaxies/types</a> (Accessed: 23 November 2025).</span>
-        <br><br>
-        
-        <span id="ref12">National Center for Biotechnology Information (no date) <em>Observing the epoch of galaxy formation</em>. PubMed Central. Available at: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9279288/" target="_blank">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9279288/</a> (Accessed: 23 November 2025).</span>
-        <br><br>
-        
-        <span id="ref9">National Astronomical Observatory of Japan (no date) <em>Formation of a Spiral Galaxy ver. 3</em>. Available at: <a href="https://www.nao.ac.jp/en/gallery/weekly/2009/20090908-spiral.html" target="_blank">https://www.nao.ac.jp/en/gallery/weekly/2009/20090908-spiral.html</a> (Accessed: 23 November 2025).</span>
-      </p>
-      
-    </section>
-
-    <script>
-      // Toggle dropdown on click
-      document.querySelector('.dropdown-btn').addEventListener('click', function() {
-        var dropdown = document.querySelector('.dropdown-content');
-        if (dropdown.style.display === 'block') {
-          dropdown.style.display = 'none';
-        } else {
-          dropdown.style.display = 'block';
-        }
-      });
-
-      // Close dropdown when clicking outside
-      window.addEventListener('click', function(event) {
-        if (!event.target.matches('.dropdown-btn')) {
-          var dropdowns = document.getElementsByClassName('dropdown-content');
-          for (var i = 0; i < dropdowns.length; i++) {
-            dropdowns[i].style.display = 'none';
-          }
-        }
-      });
-    </script>
-  </body>
-</html>
+      <!-- Rest of your code continues... -->
