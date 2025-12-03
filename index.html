@@ -119,9 +119,10 @@
             const IrregularCount = displayWordCount("Irregular_Text");
             const CompCount = displayWordCount("Computational_Text");
             const HowmanyCount = displayWordCount("How many galaxies");
+            const ObservCount = displayWordCount("Observational_Text");
 
             const totalWordCount = AbstractCount + IntroCount + FormationCount + 
-                                  SpiralCount + EllipticalCount + IrregularCount + CompCount + HowmanyCount;
+                                  SpiralCount + EllipticalCount + IrregularCount + CompCount + HowmanyCount + ObservCount;
             
             document.getElementById("totalWordCount").innerText = `Total word count: ${totalWordCount}`;
         }
@@ -260,7 +261,7 @@
       </figure>
 
       <h4>Observational methods:</h4>
-      <ul>
+      <ul id="Observational_Text">
         <li>Astronomers can use the finite speed of light to their advantage. By observing distant galaxies, they are essentially looking at snapshots of the universe in its early stages, directly seeing galaxies as they were forming and evolving (<a href="#ref12">National Center for Biotechnology Information, no date</a>).</li>
         <li>By analysing the chemical content, kinematics, and distribution of stars and gas in our own and nearby galaxies, astronomers reconstruct their formation history (<a href="#ref7">NASA Science, no date</a>).</li>
       </ul>
