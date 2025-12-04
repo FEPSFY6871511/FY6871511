@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html> 
   <head>
+    <!-- Make page mobile-friendly -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Galaxy formations</title>
+    
+    <!-- Link to external stylesheets -->
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="style.css"> 
     
     <style>
+      /* Hide all slideshow images by default */
       .mySlides {
         display: none;
       }
       
-      /* Styling for timestamp and verify button */
+      /* Style the timestamp display */
       #last-updated {
         text-align: center;
         margin: 20px 0;
@@ -19,6 +23,7 @@
         color: #666;
       }
       
+      /* Style the verify button */
       .verify-btn {
         display: block;
         margin: 10px auto;
@@ -34,11 +39,13 @@
         box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
       }
       
+      /* Button hover effect */
       .verify-btn:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
       }
       
+      /* Style the word count display */
       #totalWordCount {
         text-align: center;
         font-weight: bold;
@@ -50,36 +57,45 @@
   </head>
   
   <body>
-    <!-- Last commit time display -->
+    <!-- Display when page was last updated -->
     <div id="last-updated">Loading last update time...</div>
     
-    <!-- Verify Button - styled to match dropdown -->
+    <!-- Button to refresh the timestamp -->
     <button onclick="verifyLastUpdatedTime()" class="verify-btn">
         Verify Last Modified Time
     </button>
 
-    <!-- Word count display -->
+    <!-- Display total word count -->
     <p id="totalWordCount"></p>
     <hr>
 
     <script>
-        // ===== TIMESTAMP FUNCTIONS =====
+        // Function to get last update time from GitHub
         async function getLastUpdatedTime() {
             const username = 'FEPSFY6871511';
             const repo = 'FY6871511';
            
+            // Build the GitHub API URL
             const url = `https://api.github.com/repos/${username}/${repo}/commits`;
+            
             try {
+                // Request data from GitHub
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/vnd.github.v3+json',
                     }
                 });
+                
+                // Check if request was successful
                 if (!response.ok) {
                     throw new Error(`Error fetching data: ${response.status} - ${response.statusText}`);
                 }
+                
+                // Convert response to JSON
                 const commits = await response.json();
+                
+                // If commits exist, show the most recent one
                 if (commits && commits.length > 0) {
                     const lastCommitDate = new Date(commits[0].commit.committer.date);
                     document.getElementById('last-updated').innerText = `Last Modified Time: ${lastCommitDate.toLocaleString()}`;
@@ -87,30 +103,38 @@
                     document.getElementById('last-updated').innerText = 'No commits found in the repository.';
                 }
             } catch (error) {
+                // Show error message if something went wrong
                 console.error('Error fetching the last updated time:', error);
                 document.getElementById('last-updated').innerText = 'Error fetching update time. Please check the repository details.';
             }
         }
 
+        // Function to refresh the timestamp when button is clicked
         async function verifyLastUpdatedTime() {
             document.getElementById('last-updated').innerText = 'Verifying...';
             await getLastUpdatedTime();
             alert("Last modified time has been successfully verified from GitHub API.");
         }
 
-        // ===== WORD COUNT FUNCTIONS =====
+        // Count words in a specific section
         function displayWordCount(sectionId) {
             const element = document.getElementById(sectionId);
+            
+            // Check if section exists
             if (!element) {
                 console.error(`Element with ID ${sectionId} not found`);
                 return 0;
             }
+            
+            // Get text and split into words
             const text = element.textContent;
             const wordArray = text.trim().split(/\s+/).filter(word => word.length > 0);
             return wordArray.length;
         }
 
+        // Calculate and display total word count from all sections
         function displayTotalWordCount() {
+            // Count words in each section
             const AbstractCount = displayWordCount("Abstract_Text");
             const IntroCount = displayWordCount("Intro_Text");
             const FormationCount = displayWordCount("Formation_Text");
@@ -121,13 +145,15 @@
             const HowmanyCount = displayWordCount("How many galaxies");
             const ObservCount = displayWordCount("Observational_Text");
 
+            // Add all counts together
             const totalWordCount = AbstractCount + IntroCount + FormationCount + 
                                   SpiralCount + EllipticalCount + IrregularCount + CompCount + HowmanyCount + ObservCount;
             
+            // Display the total
             document.getElementById("totalWordCount").innerText = `Total word count: ${totalWordCount}`;
         }
 
-        // ===== COMBINED WINDOW.ONLOAD =====
+        // Run these functions when page loads
         window.onload = function() {
             getLastUpdatedTime();
             displayTotalWordCount();
@@ -136,6 +162,7 @@
 
     <section class="header">
       
+      <!-- Top section with banner and student info -->
       <div class="top-left-info">
         <img src="WebBanner2023clean.png" alt="Banner" width="300" height="auto">
         <h1><b>ENG0018 Computer Laboratory 2025/26</b></h1>
@@ -144,12 +171,12 @@
       
       <hr>
       
-      <!-- Galaxy Banner for Title -->
+      <!-- Large title banner with galaxy image -->
       <div class="title-banner">
         <h2>Galaxy Formation</h2>
       </div>
       
-      <!-- Dropdown Table of Contents -->
+      <!-- Table of contents dropdown menu -->
       <div class="dropdown">
         <button class="dropdown-btn">Table of contents ▼</button>
         <div class="dropdown-content">
@@ -163,18 +190,20 @@
         </div>
       </div>
       
+      <!-- Abstract section -->
       <h3 id="Abstract">Abstract</h3>
       <p id="Abstract_Text">
         This paper explores the fascinating process of galaxy formation, from the initial clouds of gas and dust to the diverse structures we observe today. We examine the crucial role of dark matter in shaping galaxies, analyze the three main types of galaxies (spiral, elliptical, and irregular), and discuss both computational and observational methods used to study galaxy formation.
       </p>
       
+      <!-- Introduction section -->
       <h3 id="Introduction">Introduction</h3>
       <p id="Intro_Text">
         Today there exists many billions of galaxies (<a href="#ref7">NASA Science, no date</a>). How did they form? To answer that question, over many years astronomers have used the fundamental laws of physics to deduce the basic story of galaxy formation (<a href="#ref1">American Museum of Natural History, no date</a>). 
         The formation process had begun with huge clouds of gas and dust. As these clouds collapse under gravity, the gas becomes denser and heats up, leading to the formation of stars (<a href="#ref6">Astronomy.com, no date</a>). Overtime, smaller galaxies collide and merge which allows them to grow into large structures, as shown in Figure 1.
       </p>
 
-      <!-- Figure 1: Galaxy formation -->
+      <!-- Image: Galaxy formation -->
       <figure style="text-align: center; margin: 30px 0;">
         <img src="galaxy-intro.jpg" alt="Galaxy Formation" class="section-image">
         <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 14px;">
@@ -182,6 +211,7 @@
         </figcaption>
       </figure>
 
+      <!-- Dark matter section -->
       <h3 id="Formation and the role of dark matter">Formation and the role of dark matter</h3>
       <p id="Formation_Text">
         As mentioned already, galaxies formed from an initial gas cloud, followed by star formation and then ending in merging and growth (hierarchical merging) (<a href="#ref2">Center for Astrophysics, no date</a>). 
@@ -189,7 +219,7 @@
         It acts as a scaffolding of the universe and the visible matter simply collects inside of that scaffolding, in the form of stars and galaxies (<a href="#ref3">Bower, no date</a>). Dark matter does this by clumping together; in which small objects form first and are drawn together to form larger ones, as illustrated in Figure 2.
       </p>
 
-      <!-- Figure 2: Dark matter -->
+      <!-- Image: Dark matter -->
       <figure style="text-align: center; margin: 30px 0;">
         <img src="dark-matter.jpg" alt="Dark Matter Visualization" class="section-image">
         <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 14px;">
@@ -197,8 +227,10 @@
         </figcaption>
       </figure>
       
+      <!-- Galaxy types section -->
       <h3 id="The 3 Types of Galaxies">The 3 Types of Galaxies</h3>
       
+      <!-- Spiral galaxies subsection -->
       <h4>Spiral Galaxies:</h4>
       <p id="Spiral_Text">
         The formation of a spiral galaxy occurs through hierarchical merging of smaller galaxies and the formation of a rotating disk (<a href="#ref9">National Astronomical Observatory of Japan, no date</a>). Matter is distributed almost uniformly in space, however because small density fluctuations exist, matter is gradually collected by the gravity from parts with a higher density (<a href="#ref2">Center for Astrophysics, no date</a>). Over time, the gas density becomes high enough and stars are born, forming small galaxies. These small galaxies then merge with each other, creating even larger galaxies.
@@ -206,7 +238,7 @@
         The galaxy we live in, the Milky Way, is an example of a spiral galaxy (<a href="#ref8">NASA Science, no date</a>), as shown in Figure 3.
       </p>
 
-      <!-- Figure 3: Spiral galaxy -->
+      <!-- Image: Spiral galaxy -->
       <figure style="text-align: center; margin: 30px 0;">
         <img src="spiral-galaxy.jpg" alt="Spiral Galaxy" class="section-image">
         <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 14px;">
@@ -214,13 +246,14 @@
         </figcaption>
       </figure>
 
+      <!-- Elliptical galaxies subsection -->
       <h4>Elliptical Galaxies:</h4>
       <p id="Elliptical_Text">
         Elliptical galaxies, unlike spirals, usually contain little gas and dust and show very little organization or structure (<a href="#ref8">NASA Science, no date</a>). The stars formed, orbit the core in random directions and are generally older than those in spiral galaxies, since little of the gas needed to form new stars remains. In terms of their exact origin, it is believed that they come from collisions and mergers with spirals (<a href="#ref8">NASA Science, no date</a>).  
         When two galaxies collide, it's because of gas clouds being compressed, leading to new star formation, as illustrated in Figure 4.
       </p>
 
-      <!-- Figure 4: Elliptical galaxy -->
+      <!-- Image: Elliptical galaxy -->
       <figure style="text-align: center; margin: 30px 0;">
         <img src="elliptical-galaxy.jpg" alt="Elliptical Galaxy" class="section-image">
         <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 14px;">
@@ -228,13 +261,14 @@
         </figcaption>
       </figure>
 
+      <!-- Irregular galaxies subsection -->
       <h4>Irregular Galaxies:</h4>
       <p id="Irregular_Text">
         Irregular galaxies have unusual shapes and range from dwarf irregular galaxies with 100 million times the sun's mass to large ones weighing 10 billion solar masses (<a href="#ref8">NASA Science, no date</a>).
         What causes these irregular shapes? Astronomers think that these galaxies' odd shapes are sometimes the result of interactions with others (<a href="#ref4">BBC Sky at Night Magazine, no date</a>). For instance, one spiral galaxy passing with a stronger gravitational pull could lose some of its material, causing it to become distorted and have a new shape, as shown in Figure 5.
       </p>
 
-      <!-- Figure 5: Irregular galaxy -->
+      <!-- Image: Irregular galaxy -->
       <figure style="text-align: center; margin: 30px 0;">
         <img src="irregular-galaxy.jpg" alt="Irregular Galaxy" class="section-image">
         <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 14px;">
@@ -242,8 +276,10 @@
         </figcaption>
       </figure>
 
+      <!-- Research methods section -->
       <h3 id="Different methods carried out for the study of galaxy formations">Different methods carried out for the study of galaxy formations</h3>
       
+      <!-- Computational methods subsection -->
       <h4>Computational methods:</h4>
       <ul id="Computational_Text">
         <li>Researchers build sophisticated computer models to simulate the formation and evolution of galaxies, including the roles of dark matter, gas, and stars (<a href="#ref10">Institute of Astronomy, no date</a>).</li>
@@ -251,8 +287,7 @@
         <li>There are currently new techniques being developed to simulate specific processes, such as star formation in extreme environments or the feedback effects of black holes on their galaxies (<a href="#ref11">Institute of Astronomy, no date</a>), as demonstrated in Figure 6.</li>
       </ul>
 
-
-      <!-- Figure 6: Galaxy simulation -->
+      <!-- Image: Galaxy simulation -->
       <figure style="text-align: center; margin: 30px 0;">
         <img src="galaxy-simulation.jpg" alt="Galaxy Simulation" class="section-image">
         <figcaption style="margin-top: 10px; font-style: italic; color: #666; font-size: 14px;">
@@ -260,17 +295,20 @@
         </figcaption>
       </figure>
 
+      <!-- Observational methods subsection -->
       <h4>Observational methods:</h4>
       <ul id="Observational_Text">
         <li>Astronomers can use the finite speed of light to their advantage. By observing distant galaxies, they are essentially looking at snapshots of the universe in its early stages, directly seeing galaxies as they were forming and evolving (<a href="#ref12">National Center for Biotechnology Information, no date</a>).</li>
         <li>By analysing the chemical content, kinematics, and distribution of stars and gas in our own and nearby galaxies, astronomers reconstruct their formation history (<a href="#ref7">NASA Science, no date</a>).</li>
       </ul>
 
-          <h3 id="How many galaxies are there in the universe?">How many galaxies are there in the universe?</h3>
+      <!-- Number of galaxies section -->
+      <h3 id="How many galaxies are there in the universe?">How many galaxies are there in the universe?</h3>
       <p id="How many galaxies">
         The exact number of galaxies isn't known. Initially it was thought by scientists that there were about 200 billion galaxies in the universe. However, in 2016 the University of Nottingham found that the total number of galaxies in the observable universe could be at least 10 times more. They managed to reach this conclusion using deep-space images as well as already published data from various other teams. They then converted the images into 3-D, in order to take accurate measurments of the number of galaxies at different epochs in the universe's history.The use of mathematical models, allowed them to infer the existence of galaxies that the current generation of telescopes cannot observe just yet. These scientists then concluded that in order for the numbers of galaxies we now see and their masses to add up, there must be a further 90% of galaxies in the observable universe that are too far away to be soon at this current point in time.  (<a href="#ref15">NASA Science,no date </a>). 
       </p>
 
+      <!-- References section -->
       <h3 id="References">References</h3> 
       <p style="line-height: 2;">
         <span id="ref1">American Museum of Natural History (no date) <em>Formation and Evolution of Galaxies</em>. Available at: <a href="https://www.amnh.org/learn-teach/curriculum-collections/cosmic-horizons-book/formation-evolution-galaxies" target="_blank">https://www.amnh.org/learn-teach/curriculum-collections/cosmic-horizons-book/formation-evolution-galaxies</a> (Accessed: 23rd November 2025).</span>
@@ -322,7 +360,7 @@
     </section>
 
     <script>
-      // Toggle dropdown on click
+      // Show/hide dropdown when button is clicked
       document.querySelector('.dropdown-btn').addEventListener('click', function() {
         var dropdown = document.querySelector('.dropdown-content');
         if (dropdown.style.display === 'block') {
@@ -332,7 +370,7 @@
         }
       });
 
-      // Close dropdown when clicking outside
+      // Close dropdown if user clicks anywhere else on page
       window.addEventListener('click', function(event) {
         if (!event.target.matches('.dropdown-btn')) {
           var dropdowns = document.getElementsByClassName('dropdown-content');
